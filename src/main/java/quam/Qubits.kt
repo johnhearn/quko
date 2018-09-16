@@ -16,26 +16,26 @@ class Qubits(private var state: State = State(), private val random: Random = Ra
         state = state.apply(k, j, gate)
     }
 
-    fun not(index: Int) = apply(index, State.PAULI_X)
+    fun not(index: Int) = apply(index, PAULI_X)
 
-    fun halfNot(index: Int) = apply(index, State.HALF_NOT)
+    fun halfNot(index: Int) = apply(index, HALF_NOT)
 
-    fun hadamard(index: Int) = apply(index, State.HADAMARD)
+    fun hadamard(index: Int) = apply(index, HADAMARD)
 
     fun hadamard(range: IntRange) = apply { range.forEach { hadamard(it) } }
 
-    fun z(index: Int) = apply(index, State.PAULI_Z)
+    fun z(index: Int) = apply(index, PAULI_Z)
 
-    fun cnot(k: Int, j: Int) = apply(k, j, State.CNOT)
+    fun cnot(k: Int, j: Int) = apply(k, j, CNOT)
 
-    fun swap(k: Int, j: Int) = apply(k, j, State.SWAP)
+    fun swap(k: Int, j: Int) = apply(k, j, SWAP)
 
-    fun cphase(k: Int, j: Int, m: Int) = apply(k, j, State.CPHASE_2)
+    fun cphase(k: Int, j: Int, m: Int) = apply(k, j, CPHASE_2)
 
     fun measure(index: Int) = run {
         val prob = state.probFalse(index)
         val result = random.nextDouble() > prob
-        state = state.apply(index, if (result) State.M1 else State.M0).normalise()
+        state = state.apply(index, if (result) M1 else M0).normalise()
         result
     }
 
