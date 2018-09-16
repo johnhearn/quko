@@ -9,6 +9,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kotlin.version>1.2.70</kotlin.version>
         <junit-jupiter-engine.version>5.0.0</junit-jupiter-engine.version>
         <assertk-jvm.version>0.12</assertk-jvm.version>
