@@ -65,6 +65,7 @@ class Qubits(private var state: State = State(), private val random: Random = Ra
         state = composeState(state.size)
     }
 
+    override fun hashCode() = state.hashCode()
 
     override fun equals(other: Any?) = when (other) {
         is Qubits -> state == other.state
