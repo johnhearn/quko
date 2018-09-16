@@ -12,7 +12,7 @@ class Qubits(private var state: State = State(), private val random: Random = Ra
         state = state.apply(k, gate)
     }
 
-    fun apply(k: Int, j:Int, gate: ComplexMatrix) = apply {
+    fun apply(k: Int, j: Int, gate: ComplexMatrix) = apply {
         state = state.apply(k, j, gate)
     }
 
@@ -30,7 +30,7 @@ class Qubits(private var state: State = State(), private val random: Random = Ra
 
     fun swap(k: Int, j: Int) = apply(k, j, SWAP)
 
-    fun cphase(k: Int, j: Int, m: Int) = apply(k, j, CPHASE_2)
+    fun cphase(k: Int, j: Int, m: Int) = apply(k, j, cphase(m))
 
     fun measure(index: Int) = run {
         val prob = state.probFalse(index)
@@ -39,13 +39,13 @@ class Qubits(private var state: State = State(), private val random: Random = Ra
         result
     }
 
-    fun measure(range: IntRange) : List<Boolean> = MutableList(range.count()) { i -> measure(range.first + i) }
+    fun measure(range: IntRange): List<Boolean> = MutableList(range.count()) { i -> measure(range.first + i) }
 
-    fun measureFirst(n: Int)= measure(0 until n)
+    fun measureFirst(n: Int) = measure(0 until n)
 
-    fun measureLast(n: Int) = measure((size-n) until size)
+    fun measureLast(n: Int) = measure((size - n) until size)
 
-    fun measureAll() : List<Boolean> = MutableList(size) { i -> measure(index + i) }
+    fun measureAll(): List<Boolean> = MutableList(size) { i -> measure(index + i) }
 
     internal fun compose() = apply {
         state = state kronecker State()
@@ -66,18 +66,14 @@ class Qubits(private var state: State = State(), private val random: Random = Ra
     }
 
 
-    override fun equals(other: Any?) = when(other) {
+    override fun equals(other: Any?) = when (other) {
         is Qubits -> state == other.state
         else -> false
     }
 
-    override fun toString(): String {
-        return state.components.components.mapIndexed { i, num -> Pair(i, num) }.joinToString("\n") { "${format(it.second)}\t|${formatAsBinary(it.first, size)}>" }
-    }
-
-    private fun format(it: ComplexNumber) = "${format(it.a)} + i${format(it.b)}".replace("+ i0.", "")
-
-    private fun format(a: Double) = String.format("%.3f", a).replace(".000", "")
+    override fun toString() = state.components.components.asSequence()
+            .mapIndexed { i, num -> Pair(i, num) }
+            .joinToString("\n") { "${it.second}\t|${formatAsBinary(it.first, size)}>" }
 
     private fun formatAsBinary(x: Int, width: Int) = x.toByte().toString(2).padStart(width, '0')
 }

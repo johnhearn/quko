@@ -1,5 +1,7 @@
 package quam
 
+import java.lang.Math.PI
+
 class GateBuilder {
 
     fun lift(n: Int, k: Int, gate: ComplexMatrix): ComplexMatrix {
@@ -70,11 +72,14 @@ val SWAP = ComplexMatrix(4,
         0.0, 0.0, 1.0, 0.0,
         0.0, 1.0, 0.0, 0.0,
         0.0, 0.0, 0.0, 1.0)
-val CPHASE_2 = ComplexMatrix(4,
-        1.0 + 0.0 * i, 0.0 + 0.0 * i, 0.0 + 0.0 * i, 0.0 + 0.0 * i,
-        0.0 + 0.0 * i, 1.0 + 0.0 * i, 0.0 + 0.0 * i, 0.0 + 0.0 * i,
-        0.0 + 0.0 * i, 0.0 + 0.0 * i, 1.0 + 0.0 * i, 0.0 + 0.0 * i,
-        0.0 + 0.0 * i, 0.0 + 0.0 * i, 0.0 + 0.0 * i, exp((2 * Math.PI / pow2(2)) * i))
+
+
+val cphase = { m : Int -> ComplexMatrix(4,
+        ONE, ZERO, ZERO, ZERO,
+        ZERO, ONE, ZERO, ZERO,
+        ZERO, ZERO, ONE, ZERO,
+        ZERO, ZERO, ZERO, exp((2 * PI / pow2(m)) * i))
+}.memoize()
 
 val M1 = TRUE outer TRUE
 val M0 = FALSE outer FALSE
