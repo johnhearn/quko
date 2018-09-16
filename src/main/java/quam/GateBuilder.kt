@@ -31,10 +31,6 @@ class GateBuilder {
     }
 
     private fun tau(n: Int, i: Int) = lift(n, i, SWAP)
-
-    private val identity = { width : Int ->
-        (0 until log2n(width)-1).fold(IDENTITY_2) { acc, _ -> acc tensor IDENTITY_2 }
-    }.memoize()
 }
 
 private fun pow2(n: Int)
@@ -45,14 +41,18 @@ private fun log2n(size: Int)
 
 private val ONE_OVER_ROOT_2 = 1.0 / Math.sqrt(2.0)
 
-val IDENTITY_2 = ComplexMatrix(2,
+private val IDENTITY_2 = ComplexMatrix(2,
         1.0, 0.0,
         0.0, 1.0)
 
-val PAULI_X      = ComplexMatrix(2,
+private val identity = { width : Int ->
+    (0 until log2n(width)-1).fold(IDENTITY_2) { acc, _ -> acc tensor IDENTITY_2 }
+}.memoize()
+
+val PAULI_X = ComplexMatrix(2,
         0.0, 1.0,
         1.0, 0.0)
-val PAULI_Z      = ComplexMatrix(2,
+val PAULI_Z = ComplexMatrix(2,
         1.0, 0.0,
         0.0, -1.0)
 val HALF_NOT = 0.5 * ComplexMatrix(2,
@@ -72,7 +72,6 @@ val SWAP = ComplexMatrix(4,
         0.0, 0.0, 1.0, 0.0,
         0.0, 1.0, 0.0, 0.0,
         0.0, 0.0, 0.0, 1.0)
-
 
 val cphase = { m : Int -> ComplexMatrix(4,
         ONE, ZERO, ZERO, ZERO,
