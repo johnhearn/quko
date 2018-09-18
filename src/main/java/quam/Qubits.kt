@@ -74,7 +74,7 @@ class Qubits(private var state: State = State(), private val random: Random = Ra
 
     override fun toString() = state.components.components.asSequence()
             .mapIndexed { i, num -> Pair(i, num) }
-            .joinToString("\n") { "${it.second}\t|${formatAsBinary(it.first, size)}>" }
+            .joinToString("\n") { "|${formatAsBinary(it.first, size)}> ${it.second}" }
 
     private fun formatAsBinary(x: Int, width: Int) = x.toByte().toString(2).padStart(width, '0')
 }

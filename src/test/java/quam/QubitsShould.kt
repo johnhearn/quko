@@ -220,17 +220,17 @@ class QubitsShould {
     @Test
     fun `have useful ket toString with single entry`() {
         val v = Qubits(1).hadamard(0)
-        assertEquals("0.707 + i0\t|0>\n" +
-                "0.707 + i0\t|1>", v.toString())
+        assertEquals("|0> 0.707\n" +
+                     "|1> 0.707", v.toString())
     }
 
     @Test
     fun `have useful ket toString with multiple entries`() {
         val v = Qubits(2).hadamard(0..1)
-        assertEquals("0.500 + i0\t|00>\n" +
-                        "0.500 + i0\t|01>\n" +
-                        "0.500 + i0\t|10>\n" +
-                        "0.500 + i0\t|11>", v.toString())
+        assertEquals("|00> 0.500\n" +
+                     "|01> 0.500\n" +
+                     "|10> 0.500\n" +
+                     "|11> 0.500", v.toString())
     }
 
     private fun generateQubits(num: Int, size: Int = 2)

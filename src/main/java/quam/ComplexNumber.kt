@@ -27,7 +27,7 @@ data class ComplexNumber(val a: Double, val b: Double = 0.0) {
             = ComplexNumber(a, -b)
 
     override fun toString()
-            = "${format(a)} + i${format(b)}".replace("+ i0.", "")
+            = "${format(a)} + i${format(b)}".replace(" + i0", "")
 
     private fun format(a: Double)
             = String.format("%.3f", a).replace(".000", "")

@@ -107,6 +107,6 @@ class ComplexMatrixShould {
         val matrix = ComplexMatrix(2, a, b, c, d)
         assertEquals(
                 "1 + i3.142 | 3 + i4\n" +
-                        "5 + i0 | 7 + i8", matrix.toString())
+                        "5 | 7 + i8", matrix.toString())
     }
 }
