@@ -43,6 +43,19 @@ class ComplexMatrix(val width : Int, internal val components: List<ComplexNumber
                         .flatten())
     }
 
+    infix fun directSum(rhs: ComplexMatrix): ComplexMatrix {
+        return ComplexMatrix(this.width + rhs.width,
+                listOf(
+                        rows().map { concat(it, listOfZeros(rhs.width)) },
+                        rhs.rows().map { concat(listOfZeros(width), it) }
+                ).flatten().flatten())
+    }
+
+    private fun concat(it: List<ComplexNumber>, elements: List<ComplexNumber>) =
+            listOf(it, elements).flatten()
+
+    private fun listOfZeros(length: Int) = (1..length).map { ZERO }
+
     infix fun tensor(other: ComplexMatrix): ComplexMatrix {
         val top = rows().flatMap { dup(other.width, it) }.flatten().flatMap { dup(other.width, it) }
         val bottom = dup(width, other.rows().flatMap { dup(width, it) }.flatten()).flatten()

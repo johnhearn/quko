@@ -5,6 +5,11 @@ import kotlin.test.assertEquals
 
 class ComplexMatrixShould {
 
+    private val a = 1.0 + 2.0 * i
+    private val b = 3.0 + 4.0 * i
+    private val c = 5.0 + 6.0 * i
+    private val d = 7.0 + 8.0 * i
+
     @Test
     fun `build from integers`() {
         val lhs = ComplexMatrix(2, 1, 1, 0, 0)
@@ -18,10 +23,6 @@ class ComplexMatrixShould {
      */
     @Test
     fun `compute transpose`() {
-        val a = 1.0 + 2.0 * i
-        val b = 3.0 + 4.0 * i
-        val c = 5.0 + 6.0 * i
-        val d = 7.0 + 8.0 * i
         val lhs = ComplexMatrix(2, a, b, c, d)
         val expected = ComplexMatrix(2, a, c, b, d)
         assertEquals(expected, lhs.transpose())
@@ -33,10 +34,6 @@ class ComplexMatrixShould {
      */
     @Test
     fun `compute product with scalar`() {
-        val a = 1.0 + 2.0 * i
-        val b = 3.0 + 4.0 * i
-        val c = 5.0 + 6.0 * i
-        val d = 7.0 + 8.0 * i
         val rhs = ComplexMatrix(2, a, b, c, d)
         val alpha = 1.5
         val expected = ComplexMatrix(2, alpha * a, alpha * b, alpha * c, alpha * d)
@@ -49,10 +46,6 @@ class ComplexMatrixShould {
      */
     @Test
     fun `compute product with vector`() {
-        val a = 1.0 + 2.0 * i
-        val b = 3.0 + 4.0 * i
-        val c = 5.0 + 6.0 * i
-        val d = 7.0 + 8.0 * i
         val matrix = ComplexMatrix(2, a, b, c, d)
         val vector = ComplexVector(a, b)
         val expected = ComplexVector(a * a + b * b, c * a + d * b)
@@ -65,10 +58,6 @@ class ComplexMatrixShould {
      */
     @Test
     fun `compute product with matrix`() {
-        val a = 1.0 + 2.0 * i
-        val b = 3.0 + 4.0 * i
-        val c = 5.0 + 6.0 * i
-        val d = 7.0 + 8.0 * i
         val matrix1 = ComplexMatrix(2, a, b, c, d)
         val matrix2 = ComplexMatrix(2, a, b, c, d)
         val expected = ComplexMatrix(2, a * a + b * c, a * b + b * d, c * a + d * c, c * b + d * d)
@@ -83,10 +72,6 @@ class ComplexMatrixShould {
      */
     @Test
     fun `compute tensor product`() {
-        val a = 1.0 + 2.0 * i
-        val b = 3.0 + 4.0 * i
-        val c = 5.0 + 6.0 * i
-        val d = 7.0 + 8.0 * i
         val lhs = ComplexMatrix(2, a, b, c, d)
         val rhs = ComplexMatrix(2, a, c, b, d)
         val expected = ComplexMatrix(4,
@@ -95,6 +80,25 @@ class ComplexMatrixShould {
                 c * a, c * c, d * a, d * c,
                 c * b, c * d, d * b, d * d)
         val actual = lhs tensor rhs
+        assertEquals(expected, actual)
+    }
+
+    /**
+     * (a b)+(d c) = (a b 0 0)
+     * (c d) (b a)   (c d 0 0)
+     *               (0 0 d c)
+     *               (0 0 b a)
+     */
+    @Test
+    fun `compute direct sum`() {
+        val lhs = ComplexMatrix(2, a, b, c, d)
+        val rhs = ComplexMatrix(2, d, c, b, a)
+        val expected = ComplexMatrix(4,
+                a, b,       ZERO, ZERO,
+                c, d,       ZERO, ZERO,
+                ZERO, ZERO, d, c,
+                ZERO, ZERO, b, a)
+        val actual = lhs directSum rhs
         assertEquals(expected, actual)
     }
 
