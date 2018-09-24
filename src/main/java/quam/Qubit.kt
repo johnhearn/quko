@@ -28,4 +28,6 @@ class Qubit internal constructor(private val random: Random, private val system:
         system.cnot(this.index, second.index)
         return Pair(this, second)
     }
+
+    override fun toString() = system.toString()
 }

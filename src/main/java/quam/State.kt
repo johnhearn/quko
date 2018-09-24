@@ -19,7 +19,19 @@ class State(initialState: ComplexVector = FALSE, private val gateBuilder: GateBu
         else -> false
     }
 
-    override fun toString()= components.toString()
+    override fun toString() = components.components.asSequence()
+            .mapIndexed { i, num -> Pair(i, num) }
+            .map { "|${formatAsBinary(it.first, size)}> ${it.second}" }
+            .sorted()
+            .joinToString("\n") { it }
+
+    // incoming number is bit reversed
+    private fun formatAsBinary(x: Int, bits: Int): String {
+        return if (bits > 0) {
+            val s = 0b1 shl bits - 1
+            formatAsBinary(x, bits - 1) + if (x and s == 0) "0" else "1"
+        } else ""
+    }
 
     internal fun normalise() = State(components.normalise())
 }

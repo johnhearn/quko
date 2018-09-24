@@ -220,17 +220,65 @@ class QubitsShould {
     @Test
     fun `have useful ket toString with single entry`() {
         val v = Qubits(1).hadamard(0)
-        assertEquals("|0> 0.707\n" +
-                     "|1> 0.707", v.toString())
+        assertEquals("|0> 0.707\n|1> 0.707", v.toString())
     }
 
     @Test
     fun `have useful ket toString with multiple entries`() {
         val v = Qubits(2).hadamard(0..1)
-        assertEquals("|00> 0.500\n" +
-                     "|01> 0.500\n" +
-                     "|10> 0.500\n" +
-                     "|11> 0.500", v.toString())
+        assertEquals("|00> 0.500\n|01> 0.500\n|10> 0.500\n|11> 0.500", v.toString())
+    }
+
+    @Test
+    fun `display 0 state correctly`() {
+        val v = Qubits(1)
+        assertEquals("|0> 1\n|1> 0", v.toString())
+    }
+
+    @Test
+    fun `display 1 state correctly`() {
+        val v = Qubits(1)
+        assertEquals("|0> 1\n|1> 0", v.toString())
+    }
+
+    @Test
+    fun `display 00 state correctly`() {
+        val v = Qubits(2)
+        assertEquals("|00> 1\n|01> 0\n|10> 0\n|11> 0", v.toString())
+    }
+
+    @Test
+    fun `display 01 state correctly`() {
+        val v = Qubits(2).not(0)
+        assertEquals("|00> 0\n|01> 1\n|10> 0\n|11> 0", v.toString())
+    }
+
+    @Test
+    fun `display 10 state correctly`() {
+        val v = Qubits(2).not(1)
+        assertEquals("|00> 0\n|01> 0\n|10> 1\n|11> 0", v.toString())
+    }
+
+    @Test
+    fun `display 11 state correctly`() {
+        val v = Qubits(2).not(0).not(1)
+        assertEquals("|00> 0\n|01> 0\n|10> 0\n|11> 1", v.toString())
+    }
+
+    @Test
+    fun `display 011 state correctly`() {
+        val v = Qubits(3).not(0).not(1)
+        assertEquals(
+                "|000> 0\n|001> 0\n|010> 0\n|011> 1\n" +
+                        "|100> 0\n|101> 0\n|110> 0\n|111> 0", v.toString())
+    }
+
+    @Test
+    fun `display 001 state correctly`() {
+        val v = Qubits(3).not(0)
+        assertEquals(
+                "|000> 0\n|001> 1\n|010> 0\n|011> 0\n" +
+                        "|100> 0\n|101> 0\n|110> 0\n|111> 0", v.toString())
     }
 
     private fun generateQubits(num: Int, size: Int = 2)
