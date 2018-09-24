@@ -29,14 +29,6 @@ class SimonsProblemFeature {
         assertEquals(0b000, simonsProblem(3) { it })
     }
 
-/*
-    @Test
-    fun `oracle is unitary`() {
-        val oracle = oracle(3, fWiki)
-        assertEquals(oracle, oracle * oracle.transpose() * oracle)
-    }
-*/
-
     @Test
     fun `3-bit case in comment s=011`() {
         // Worked example (s=011) from here - https://www.cs.vu.nl/~tcs/ac/ac-11_simon_algorithm.pdf
@@ -66,7 +58,8 @@ class SimonsProblemFeature {
     }
 
     private fun simonsProblem(n: Int, f: (Int) -> Int): Int {
-        val oracle = oracle(2 * n, f)
+        val oracle = oracle(n, n) { x, y -> f(x) xor y }
+
         val ys = (0..n*2).map { y(n, oracle) }
                 .filter { it != listOf(false, false, false) }
                 .distinct()
@@ -97,20 +90,6 @@ class SimonsProblemFeature {
                 //.measureLast(width)
                 .hadamard(0 until n)
                 .measureFirst(n)
-    }
-
-    private fun oracle(n: Int, f: (Int) -> Int): ComplexMatrix {
-        val map = mutableMapOf<Int, Int>()
-        val size = pow2(n / 2)
-        for (x in 0 until size)
-            for (y in 0 until size) {
-                val xy = x * size + y      // |x>|y>
-                val fxy = f(x) xor y       // |x>|f(x)⊕y>
-                val xFxy = x * size + fxy  // |x>|F(x,y)>
-                println("${format(x, n/2)} ${format(y, n/2)} | ${format(x, n/2)} ${format(fxy, n/2)} | $xy $xFxy")
-                map[xy] = xFxy
-            }
-        return permutationMatrix(pow2(n)) { map[it] ?: it }
     }
 
     private fun format(x: Int, width: Int) = x.toByte().toString(2).padStart(width, '0')
