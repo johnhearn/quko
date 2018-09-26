@@ -21,14 +21,25 @@ fun <T> Iterable<T>.prob(predicate: (T) -> Boolean): Double {
 }
 
 fun assertk.Assert<Double>.isCloseTo(expect: Double, tol: Double = 0.000001) {
-    if (Math.abs(actual - expect) > tol)
+    if (!actual.isCloseTo(expect, tol))
         expected("to be within $tol: ", expect, actual)
 }
 
 fun assertk.Assert<ComplexNumber>.isCloseTo(expect: ComplexNumber, tol: Double = 0.000001) {
-    if (Math.abs(actual.a - expect.a) > tol || Math.abs(actual.b - expect.b) > tol)
+    if (!actual.isCloseTo(expect, tol))
         expected("to be within $tol: ", expect, actual)
 }
+
+fun assertk.Assert<ComplexMatrix>.isCloseTo(expect: ComplexMatrix, tol: Double = 0.000001) {
+    if (actual.width != expect.width
+            || !actual.components.zip(expect.components).all { it.first.isCloseTo(it.second, tol) })
+        expected("to be within $tol: ", expect, actual)
+}
+
+private fun ComplexNumber.isCloseTo(expect: ComplexNumber, tol: Double) =
+        a.isCloseTo(expect.a, tol) || b.isCloseTo(expect.b, tol)
+
+private fun Double.isCloseTo(expect: Double, tol: Double) = Math.abs(this - expect) < tol
 
 fun <T> Sequence<T>.prob(predicate: (T) -> Boolean): Double {
     var count = 0

@@ -2,9 +2,11 @@ package quam
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import kotlin.math.pow
 
-fun pow2(n: Int)
-        = Math.pow(2.0, n.toDouble()).toInt()
+fun pow2(n: Int) = 2 pow n
+
+infix fun Int.pow(n:Int) = this.toDouble().pow(n).toInt()
 
 fun convert(input: List<Boolean>) = input.fold(0) { acc, b -> (acc shl 1) or if (b) 0b1 else 0b0 }
 

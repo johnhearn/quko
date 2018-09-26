@@ -1,55 +1,55 @@
 package quam.features
 
+import assertk.assert
 import org.junit.jupiter.api.Test
 import quam.*
 import java.lang.Math.PI
-import kotlin.test.assertEquals
 
 class QuantumFourierTransformFeature {
 
     @Test
     fun `qft one qubit`() {
-        assertEquals(oneOverSqrt(2) * ComplexMatrix(2,
+        assert(qft(1)).isCloseTo(oneOverSqrt(2) * ComplexMatrix(2,
                 1.0, 1.0,
-                1.0, -1.0), qft(1))
+                1.0, -1.0))
     }
 
     @Test
     fun `qft 2 qubits`() {
-        assertEquals(0.5 * ComplexMatrix(4,
+        assert(qft(2)).isCloseTo(0.5 * ComplexMatrix(4,
                 ONE, ONE, ONE, ONE,
                 ONE, i, -ONE, -i,
                 ONE, -ONE, ONE, -ONE,
-                ONE, -i, -ONE, i), qft(2))
+                ONE, -i, -ONE, i))
     }
 
     @Test
     fun `inverse qft one qubit`() {
-        assertEquals(oneOverSqrt(2) * ComplexMatrix(2,
+        assert(invQft(1)).isCloseTo(oneOverSqrt(2) * ComplexMatrix(2,
                 1.0, 1.0,
-                1.0, -1.0), invQft(1))
+                1.0, -1.0))
     }
 
     @Test
     fun `inverse qft 2 qubits`() {
-        assertEquals(0.5 * ComplexMatrix(4,
+        assert(invQft(2)).isCloseTo(0.5 * ComplexMatrix(4,
                 ONE, ONE, ONE, ONE,
                 ONE, -i, -ONE, i,
                 ONE, -ONE, ONE, -ONE,
-                ONE, i, -ONE, -i), invQft(2))
+                ONE, i, -ONE, -i))
     }
 }
 
-private fun qft(m: Int): ComplexMatrix {
-    val n = pow2(m)
+private fun qft(bits: Int): ComplexMatrix {
+    val n = 2 pow bits
     val nthRootOfUnity = nthRootOfUnity(n)
-    return oneOverSqrt(n) * ComplexMatrix(n, { x, y -> pow(nthRootOfUnity, x * y) })
+    return oneOverSqrt(n) * ComplexMatrix(n) { x, y -> pow(nthRootOfUnity, x * y) }
 }
 
 private fun invQft(m: Int): ComplexMatrix {
-    val n = pow2(m)
+    val n = 2 pow m
     val nthRootOfUnity = nthRootOfUnity(n)
-    return oneOverSqrt(n) * ComplexMatrix(n, { x, y -> pow(nthRootOfUnity, y * x).conjugate() })
+    return oneOverSqrt(n) * ComplexMatrix(n) { x, y -> pow(nthRootOfUnity, y * x).conjugate() }
 }
 
 private fun oneOverSqrt(n: Int) = (1 / Math.sqrt(n.toDouble()))

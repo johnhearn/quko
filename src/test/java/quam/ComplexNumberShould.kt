@@ -45,6 +45,16 @@ class ComplexNumberShould {
     }
 
     @Test
+    fun `have double division operator`() {
+        assertEquals(ComplexNumber(0.5, 1.0), complexNumber / 2.0)
+    }
+
+    @Test
+    fun `have integer division operator`() {
+        assertEquals(ComplexNumber(0.5, 1.0), complexNumber / 2)
+    }
+
+    @Test
     fun `expand from expression`() {
         assertEquals(ComplexNumber(-3.0, 4.0), -3.0 + 4.0 * i)
     }

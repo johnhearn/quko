@@ -20,6 +20,12 @@ data class ComplexNumber(val a: Double, val b: Double = 0.0) {
     operator fun times(d: Double)
             = ComplexNumber(this.a * d, this.b * d)
 
+    operator fun div(d: Double)
+            = ComplexNumber(this.a / d, this.b / d)
+
+    operator fun div(d: Int)
+            = ComplexNumber(this.a / d, this.b / d)
+
     fun l2norm()
             = Math.sqrt(a * a + b * b)
 
