@@ -64,11 +64,11 @@ class SimonsProblemFeature {
                 .filter { it != listOf(false, false, false) }
                 .distinct()
 
-        println(ys.map { format(convert(it), n)})
+        println(ys.map { format(it.toInt(), n)})
 
         // "Solve" by going through possibilities for s and checking xor_sum of y*s is 0 for all y
         for(s in (1 until pow2(n))) {
-            if(ys.map { convert(it) }
+            if(ys.map { it.toInt() }
                     .map { it and s }
                     .map {
                         // xor over i of (y_i * s_i)

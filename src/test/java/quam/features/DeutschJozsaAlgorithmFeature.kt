@@ -43,7 +43,8 @@ class DeutschJozsaAlgorithmFeature {
             .not(m)
             .hadamard(0 until m + 1))
 
-    private fun decode(qubits: Qubits) = convert(qubits
+    private fun decode(qubits: Qubits) = qubits
             .hadamard(0 until qubits.size - 1)
-            .measureFirst(qubits.size - 1)) != 0
+            .measureFirst(qubits.size - 1)
+            .toInt() != 0
 }

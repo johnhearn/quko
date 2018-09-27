@@ -8,7 +8,8 @@ fun pow2(n: Int) = 2 pow n
 
 infix fun Int.pow(n:Int) = this.toDouble().pow(n).toInt()
 
-fun convert(input: List<Boolean>) = input.fold(0) { acc, b -> (acc shl 1) or if (b) 0b1 else 0b0 }
+fun List<Boolean>.toInt()
+        = fold(0) { acc, b -> (acc shl 1) or if (b) 0b1 else 0b0 }
 
 class MathsShould {
 
@@ -24,6 +25,6 @@ class MathsShould {
 
     @Test
     fun `convert boolean lists to integers`() {
-        assertEquals(0b11001011, convert(listOf(true, true, false, false, true, false, true, true)))
+        assertEquals(0b11001011, listOf(true, true, false, false, true, false, true, true).toInt())
     }
 }

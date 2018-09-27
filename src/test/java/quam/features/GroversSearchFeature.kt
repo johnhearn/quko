@@ -36,7 +36,7 @@ class GroversSearchFeature {
             phi.apply(0, oracle).hadamard(0 until n).apply(0, diffusion).hadamard(0 until n)
         }
 
-        return convert(phi.measureAll())
+        return phi.measureAll().toInt()
     }
 
     private fun diffusion(n: Int): ComplexMatrix {

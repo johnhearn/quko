@@ -74,6 +74,3 @@ class Qubits(private var state: State = State(), private val random: Random = Ra
 
     override fun toString() = state.toString()
 }
-
-fun List<Boolean>.toInt()
-        = fold(0) { acc, b -> (acc shl 1) or if (b) 0b1 else 0b0 }
