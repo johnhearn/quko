@@ -43,21 +43,20 @@ class QuantumFourierTransformFeature {
 private fun qft(bits: Int): ComplexMatrix {
     val n = 2 pow bits
     val nthRootOfUnity = nthRootOfUnity(n)
-    return oneOverSqrt(n) * ComplexMatrix(n) { x, y -> pow(nthRootOfUnity, x * y) }
+    return oneOverSqrt(n) * ComplexMatrix(n) { x, y -> nthRootOfUnity pow x * y }
 }
 
 private fun invQft(m: Int): ComplexMatrix {
     val n = 2 pow m
     val nthRootOfUnity = nthRootOfUnity(n)
-    return oneOverSqrt(n) * ComplexMatrix(n) { x, y -> pow(nthRootOfUnity, y * x).conjugate() }
+    return oneOverSqrt(n) * ComplexMatrix(n) { x, y -> (nthRootOfUnity pow y * x).conjugate() }
 }
 
-private fun oneOverSqrt(n: Int) = (1 / Math.sqrt(n.toDouble()))
+private fun oneOverSqrt(n: Int)
+        = (1 / Math.sqrt(n.toDouble()))
 
-fun pow(complexNumber: ComplexNumber, m: Int): ComplexNumber {
-    return (0 until m).fold(ONE) { acc, _ -> acc * complexNumber }
-}
+private infix fun ComplexNumber.pow(m: Int)
+        = (0 until m).fold(ONE) { acc, _ -> acc * this }
 
-private fun nthRootOfUnity(n: Int): ComplexNumber {
-    return exp(2 * PI * i / n)
-}
+private fun nthRootOfUnity(n: Int)
+        = exp(2 * PI * i / n)
