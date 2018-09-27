@@ -1,11 +1,10 @@
-package quam.features
+package quam
 
 import assertk.assert
 import org.junit.jupiter.api.Test
 import quam.*
-import java.lang.Math.PI
 
-class QuantumFourierTransformFeature {
+class QftShould {
 
     @Test
     fun `qft one qubit`() {
@@ -39,24 +38,3 @@ class QuantumFourierTransformFeature {
                 ONE, i, -ONE, -i))
     }
 }
-
-private fun qft(bits: Int): ComplexMatrix {
-    val n = 2 pow bits
-    val nthRootOfUnity = nthRootOfUnity(n)
-    return oneOverSqrt(n) * ComplexMatrix(n) { x, y -> nthRootOfUnity pow x * y }
-}
-
-private fun invQft(m: Int): ComplexMatrix {
-    val n = 2 pow m
-    val nthRootOfUnity = nthRootOfUnity(n)
-    return oneOverSqrt(n) * ComplexMatrix(n) { x, y -> (nthRootOfUnity pow y * x).conjugate() }
-}
-
-private fun oneOverSqrt(n: Int)
-        = (1 / Math.sqrt(n.toDouble()))
-
-private infix fun ComplexNumber.pow(m: Int)
-        = (0 until m).fold(ONE) { acc, _ -> acc * this }
-
-private fun nthRootOfUnity(n: Int)
-        = exp(2 * PI * i / n)
